@@ -6,19 +6,28 @@ MarkovChain -> Parser
           |--> TweetGenerator
 */
 
-use std::env;
-
 pub mod markov_chain;
+
+use std::env;
+use markov_chain::MarkovChain;
 
 fn main() {
   let args: Vec<String> = env::args().collect();
+  let numTweets = 1;
 
   if args.len() < 2 {
     println!("usage: erowid_coin <text directory>");
     return;
   }
 
+  if args.len() === 3 {
+    numTweets = &args[2];
+  }
+
   let directory = &args[1];
 
-  let mchain = markov_chain::MarkovChain {};
+  let mchain = MarkovChain::new();
+  let tweet = mchain.create_tweets(directory, numTweets);
+
+  println!("{}", tweet);
 }
