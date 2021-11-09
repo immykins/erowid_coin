@@ -13,21 +13,23 @@ use markov_chain::MarkovChain;
 
 fn main() {
   let args: Vec<String> = env::args().collect();
-  let numTweets = 1;
+  let mut num_tweets: i32 = 1;
 
   if args.len() < 2 {
     println!("usage: erowid_coin <text directory>");
     return;
   }
 
-  if args.len() === 3 {
-    numTweets = &args[2];
+  if args.len() == 3 {
+    // handle errors here lol
+    let integer = &args[2].parse::<i32>();
+    num_tweets = integer.clone().unwrap();
   }
 
   let directory = &args[1];
 
   let mchain = MarkovChain::new();
-  let tweet = mchain.create_tweets(directory, numTweets);
+  let tweet = mchain.create_tweets(directory, num_tweets);
 
   println!("{}", tweet);
 }

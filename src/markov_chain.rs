@@ -9,8 +9,8 @@ pub struct MarkovChain {
 }
 
 impl MarkovChain {
-  fn parse_in(dir: &Path) -> {
-
+  fn parse_in(dir: &Path) -> Option<&Graph>{
+    None
   }
 
   pub fn create_tweets(self: &Self, directory: &str, number: i32) -> &str {
@@ -26,13 +26,13 @@ struct Graph {
 
 }
 
-struct Node {
+// struct Node {
 
-}
+// }
 
-struct Edge {
+// struct Edge {
 
-}
+// }
 
 // struct Parser {
 
@@ -57,9 +57,10 @@ mod tests {
 
   #[test]
   fn parsing() {
-    const TEST_PATH: &Path = Path::new("./txt");
+    let test_path: &Path = Path::new("./txt");
 
-    let response = parse_in(TEST_PATH)
+    // let mchain = MarkovChain::new();
+    let response = MarkovChain::parse_in(test_path);
 
     // assert_eq!(result, 5);
   }
