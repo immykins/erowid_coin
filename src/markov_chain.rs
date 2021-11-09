@@ -27,17 +27,19 @@ impl MarkovChain {
 // we mostly care about fast lookups for adding new nodes / modifying edges for existing ones.
 // I might end up duplicating this to allow for faster random sampling, I think Rust is O(n) for randomly sampling
 // from a HashMap, but I only need to do that once for determining the first word in a tweet.
+#[derive(Clone)]
 struct Graph {
   map: HashMap<String, Node>,
   entryWords: Vec<String>, // storing capitalized words 
 }
 
 impl Graph {
-  fn number_of_nodes(self: &Self) -> i32 {
+  fn number_of_nodes(self) -> i32 {
     return self.map.len().try_into().unwrap();
   }
 
-  fn add(self: &Self, word: String) -> () {
+  fn add(&mut self, word: String) -> () {
+    self.map.insert(word, Node{});
   }
 
   pub fn new() -> Graph {
@@ -49,6 +51,7 @@ impl Graph {
 }
 
 // we need to store a weighted index (the 'strength' of an edge) for probabilistic sampling
+#[derive(Clone)]
 struct Node {
 
 }
@@ -67,7 +70,7 @@ mod tests {
 
   #[test]
   fn add() {
-    let graph = Graph::new();
+    let mut graph = Graph::new();
     graph.add(String::from("foo"));
     assert_eq!(graph.number_of_nodes(), 1);
   }
@@ -82,16 +85,14 @@ mod tests {
     let test_path: &Path = Path::new("./txt");
 
     let response = MarkovChain::parse_in(test_path);
-
-    // assert_eq!(result, 5);
   }
 }
 
 
-struct TweetGenerator {
+// struct TweetGenerator {
 
-}
+// }
 
-impl TweetGenerator {
+// impl TweetGenerator {
 
-}
+// }
