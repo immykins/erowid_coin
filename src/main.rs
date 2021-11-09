@@ -10,6 +10,7 @@ pub mod markov_chain;
 
 use std::env;
 use markov_chain::MarkovChain;
+use std::path::Path;
 
 fn main() {
   let args: Vec<String> = env::args().collect();
@@ -21,10 +22,9 @@ fn main() {
   }
 
   if args.len() == 3 {
-    // handle errors here lol
     let integer = &args[2].parse::<i32>();
-    let num_tweets = match integer {
-      Ok(val) => val,
+    num_tweets = match integer {
+      Ok(val) => val.clone(),
       Err(error) => {
         println!("could not parse number of tweets: {}", error);
         return;
@@ -32,7 +32,7 @@ fn main() {
     };
   }
 
-  let directory = &args[1];
+  let directory = Path::new(&args[1]);
 
   let mchain = MarkovChain::new();
   let tweet = mchain.create_tweets(directory, num_tweets);

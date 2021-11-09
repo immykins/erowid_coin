@@ -10,10 +10,11 @@ pub struct MarkovChain {
 
 impl MarkovChain {
   fn parse_in(dir: &Path) -> Option<&Graph>{
+
     None
   }
 
-  pub fn create_tweets(self: &Self, directory: &str, number: i32) -> &str {
+  pub fn create_tweets(self: &Self, dir: &Path, number: i32) -> &str {
     return "this is a tweet";
   }
 
@@ -23,12 +24,20 @@ impl MarkovChain {
 }
 
 struct Graph {
-
+  map: HashMap<String, Vec<String>>,
 }
 
-// struct Node {
+impl Graph {
+  pub fn new() -> Graph {
+    return Graph {
+      map: HashMap::new(),
+    };
+  }
+}
 
-// }
+struct Node {
+
+}
 
 // struct Edge {
 
