@@ -16,14 +16,20 @@ fn main() {
   let mut num_tweets: i32 = 1;
 
   if args.len() < 2 {
-    println!("usage: erowid_coin <text directory>");
+    println!("usage: erowid_coin <text directory> <number of tweets>");
     return;
   }
 
   if args.len() == 3 {
     // handle errors here lol
     let integer = &args[2].parse::<i32>();
-    num_tweets = integer.clone().unwrap();
+    let num_tweets = match integer {
+      Ok(val) => val,
+      Err(error) => {
+        println!("could not parse number of tweets: {}", error);
+        return;
+      },
+    };
   }
 
   let directory = &args[1];
