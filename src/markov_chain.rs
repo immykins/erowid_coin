@@ -23,8 +23,11 @@ impl MarkovChain {
   }
 }
 
+// we mostly care about fast lookups for adding new nodes / modifying edges for existing ones.
+// I might end up duplicating this to allow for random sampling faster, I think Rust is O(n) for randomly sampling
+// from a HashMap, but I only need to do that once for determining the first word in a tweet.
 struct Graph {
-  map: HashMap<String, Vec<String>>,
+  map: HashMap<String, Node>,
 }
 
 impl Graph {
@@ -47,28 +50,14 @@ struct Node {
 
 // }
 
-// impl Parser {
-//   // fn 
-
-//   pub fn parse_in(dir: &Path) {
-    
-//   }
-
-//   pub fn new() -> Parser {
-//     return Parser {};
-//   }
-  // }
-
 #[cfg(test)]
 mod tests {
   use super::*;
-  // use Parser;
 
   #[test]
-  fn parsing() {
+  fn parse_in() {
     let test_path: &Path = Path::new("./txt");
 
-    // let mchain = MarkovChain::new();
     let response = MarkovChain::parse_in(test_path);
 
     // assert_eq!(result, 5);
