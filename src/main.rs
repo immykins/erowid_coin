@@ -34,6 +34,7 @@ fn main() {
 
   let directory = Path::new(&args[1]);
 
+  // is there some way to avoid having to pass mut all the way down :|
   let mut mchain = MarkovChain::new();
   let tweets = mchain.create_tweets(directory, num_tweets);
 
