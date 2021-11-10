@@ -67,12 +67,10 @@ impl Graph {
   }
 
   fn add(&mut self, word: String, last_word: Option<String>) -> () {
+    // check to see if we already have this word
+    // if we do, we change the edges on it - add new one, or strengthen existing one
+    // if we don't, we add it to the map
     self.map.insert(word, Node{});
-    // self.map
-  }
-
-  fn add_with_previous(&mut self, prev: String, next: String) -> () {
-
   }
 
   pub fn new() -> Graph {
@@ -88,9 +86,12 @@ struct Node {
 
 }
 
-// struct Edge {
-
-// }
+impl Node {
+  // randomly picks from weighted edges and returns pointer to next node
+  fn next(self) -> Node {
+    return Node{};
+  }
+}
 
 #[cfg(test)]
 mod tests {
@@ -108,14 +109,6 @@ mod tests {
   //   let mut graph = Graph::new();
   //   graph.add(String::from("foo"));
   //   let node graph.add(String::from("foo"));
-  //   assert_eq!(graph.number_of_nodes(), 1);
-  // }
-
-  // #[test]
-  // fn add_with_previous() {
-  //   let mut graph = Graph::new();
-  //   graph.add(String::from("foo"));
-  //   let node = graph.add(String::from("foo"));
   //   assert_eq!(graph.number_of_nodes(), 1);
   // }
 
