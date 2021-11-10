@@ -1,5 +1,5 @@
 use std::io;
-use std::fs::{self, DirEntry};
+use std::fs;
 use std::path::Path;
 use std::collections::HashMap;
 
@@ -34,8 +34,7 @@ impl MarkovChain {
   }
 
   pub fn create_tweets(&mut self, dir: &Path, number: i32) -> Vec<String> {
-    // should I do something with the io::Result here?
-    self.parse_in(dir);
+    self.parse_in(dir).unwrap();
 
     let mut vec = Vec::new();
 
@@ -88,6 +87,7 @@ struct Node {
 
 impl Node {
   // randomly picks from weighted edges and returns pointer to next node
+  // IDEA: instead of (or in addition to) doing this, would be really cool to do our own iterator implementation... maybe use collect and convert it into a string?
   fn next(self) -> Node {
     return Node{};
   }
@@ -96,6 +96,8 @@ impl Node {
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  // Graph tests - these are more of an internal implementation detail for MarkovChain, so they can prob be deleted later
 
   #[test]
   #[ignore]
@@ -115,15 +117,9 @@ mod tests {
   #[test]
   #[ignore]
   fn add_strengthens_edges() {
-
   }
 
-  // #[test]
-  // fn parse_in() {
-  //   let test_path: &Path = Path::new("./txt");
-
-  //   let response = MarkovChain::parse_in(test_path);
-  // }
+  // MarkovChain tests
 
   #[test]
   fn create_a_tweet() {
