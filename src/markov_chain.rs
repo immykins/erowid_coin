@@ -6,18 +6,22 @@ use std::collections::HashMap;
 // DI Parser, TweetGenerator
 // contains a graph structure
 pub struct MarkovChain {
-  
+  graph: Graph,
 }
 
 impl MarkovChain {
   // builds our graph
-  fn parse_in(self: &Self, dir: &Path) -> io::Result<()> {
+  fn parse_in(&mut self, dir: &Path) -> io::Result<()> {
     for entry in fs::read_dir(dir)? {
       let entry = entry?;
       let path = entry.path();
       let contents = fs::read_to_string(path)?;
+      let contents = contents.split_whitespace();
 
-      // println!("{}", contents);
+      for word in contents {
+        println!("{}", word.to_string());
+        self.graph.add(word.to_string());
+      }
     }
     Ok(())
   }
@@ -26,7 +30,7 @@ impl MarkovChain {
     return String::from("");
   }
 
-  pub fn create_tweets(self: &Self, dir: &Path, number: i32) -> Vec<String> {
+  pub fn create_tweets(&mut self, dir: &Path, number: i32) -> Vec<String> {
     self.parse_in(dir);
 
     let mut vec = Vec::new();
@@ -39,7 +43,9 @@ impl MarkovChain {
   }
 
   pub fn new() -> MarkovChain {
-    return MarkovChain {};
+    return MarkovChain {
+      graph: Graph::new(),
+    };
   }
 }
 
@@ -129,7 +135,7 @@ mod tests {
   #[test]
   fn create_a_tweet() {
     let test_path: &Path = Path::new("./txt");
-    let mchain = MarkovChain::new();
+    let mut mchain = MarkovChain::new();
 
     let response = mchain.create_tweets(test_path, 1);
     assert_eq!(response[0], "implement me pls");

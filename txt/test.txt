@@ -1,1 +1,1 @@
-The syntactic component of a grammar must specify, for each sentence, a deep structure that determines its semantic interpretationand a surface structure that determines its phonetic interpretation.
+The syntactic component of a grammar must specify, for each sentence, a deep structure that determines its semantic interpretation and a surface structure that determines its phonetic interpretation.

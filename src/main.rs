@@ -34,7 +34,7 @@ fn main() {
 
   let directory = Path::new(&args[1]);
 
-  let mchain = MarkovChain::new();
+  let mut mchain = MarkovChain::new();
   let tweets = mchain.create_tweets(directory, num_tweets);
 
   for tweet in tweets.iter() {
