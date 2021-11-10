@@ -56,40 +56,60 @@ impl MarkovChain {
 // I might end up duplicating this to allow for faster random sampling, I think Rust is O(n) for randomly sampling
 // from a HashMap, but I only need to do that once for determining the first word in a tweet.
 struct Graph {
-  map: HashMap<String, Node>,
-  entry_words: Vec<String>, // storing capitalized words
+  nodes: HashMap<String, Node>,
+  // entry_words: Vec<String>, // storing capitalized words
 }
 
 impl Graph {
   fn number_of_nodes(self) -> i32 {
-    return self.map.len().try_into().unwrap();
+    return self.nodes.len().try_into().unwrap();
   }
 
   fn add(&mut self, word: String, last_word: Option<String>) -> () {
-    // check to see if we already have this word
-    // if we do, we change the edges on it - add new one, or strengthen existing one
-    // if we don't, we add it to the map
-    self.map.insert(word, Node{});
+    if !self.nodes.contains_key(&word) {
+      self.nodes.insert(word, Node::new());
+      return;
+    }
+
+    if last_word.is_some() {
+      let last_word = last_word.unwrap();
+      let mut last_node = self.nodes[&last_word];
+      let current_word = self.nodes[&word];
+
+      last_node.strengthen_edge(current_word);
+      // self.map.insert(word, Node{});
+    }
+    // if we do, we change the edges on the PREVIOUS - add new one, or strengthen existing one
   }
 
   pub fn new() -> Graph {
     return Graph {
-      map: HashMap::new(),
-      entry_words: Vec::new(),
+      nodes: HashMap::new(),
+      // entry_words: Vec::new(),
     };
   }
 }
 
 // we need to store a weighted index (the 'strength' of an edge) for probabilistic sampling
 struct Node {
-
+  edges: HashMap<String, i32>, // edge is the next 
 }
 
 impl Node {
   // randomly picks from weighted edges and returns pointer to next node
   // IDEA: instead of (or in addition to) doing this, would be really cool to do our own iterator implementation... maybe use collect and convert it into a string?
   fn next(self) -> Node {
-    return Node{};
+    return Node::new();
+  }
+
+  fn strengthen_edge(&mut self, next: Node) -> () {
+
+  }
+
+  pub fn new() -> Node {
+    return Node {
+      edges: HashMap::new(),
+    }
   }
 }
 
@@ -100,7 +120,6 @@ mod tests {
   // Graph tests - these are more of an internal implementation detail for MarkovChain, so they can prob be deleted later
 
   #[test]
-  #[ignore]
   fn add() {
     let mut graph = Graph::new();
     graph.add(String::from("foo"), None);
