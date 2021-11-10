@@ -1,9 +1,6 @@
 /*
 "Erowid Coin" is just a markov chain generator for tweeting about the hellish crossection of erowid trip
-reports + cryptocurrency - it's build using local text files. It's structed as such, using dependency injection:
-
-MarkovChain -> Parser
-          |--> TweetGenerator
+reports + cryptocurrency - it's build using local text files.
 */
 
 pub mod markov_chain;
@@ -17,7 +14,7 @@ fn main() {
   let mut num_tweets: i32 = 1;
 
   if args.len() < 2 {
-    println!("usage: erowid_coin <text directory> <number of tweets>");
+    println!("usage: erowidcoin <text directory> <number of tweets>");
     return;
   }
 

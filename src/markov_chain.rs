@@ -18,9 +18,12 @@ impl MarkovChain {
       let contents = fs::read_to_string(path)?;
       let contents = contents.split_whitespace();
 
+      let mut last_word: Option<String> = None;
+
       for word in contents {
-        println!("{}", word.to_string());
-        self.graph.add(word.to_string());
+        // println!("{}", word.to_string());
+        self.graph.add(word.to_string(), last_word);
+        last_word = Some(word.to_string());
       }
     }
     Ok(())
@@ -31,6 +34,7 @@ impl MarkovChain {
   }
 
   pub fn create_tweets(&mut self, dir: &Path, number: i32) -> Vec<String> {
+    // should I do something with the io::Result here?
     self.parse_in(dir);
 
     let mut vec = Vec::new();
@@ -62,7 +66,7 @@ impl Graph {
     return self.map.len().try_into().unwrap();
   }
 
-  fn add(&mut self, word: String) -> () {
+  fn add(&mut self, word: String, last_word: Option<String>) -> () {
     self.map.insert(word, Node{});
     // self.map
   }
@@ -88,10 +92,6 @@ struct Node {
 
 // }
 
-// struct Parser {
-
-// }
-
 #[cfg(test)]
 mod tests {
   use super::*;
@@ -100,7 +100,7 @@ mod tests {
   #[ignore]
   fn add() {
     let mut graph = Graph::new();
-    graph.add(String::from("foo"));
+    graph.add(String::from("foo"), None);
     assert_eq!(graph.number_of_nodes(), 1);
   }
 
