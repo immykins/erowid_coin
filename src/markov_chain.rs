@@ -3,7 +3,6 @@ use std::fs;
 use std::path::Path;
 use std::collections::HashMap;
 
-// DI Parser, TweetGenerator
 // contains a graph structure
 pub struct MarkovChain {
   graph: Graph,
@@ -92,6 +91,7 @@ impl Graph {
 
 // we need to store a weighted index (the 'strength' of an edge) for probabilistic sampling
 struct Node {
+  // can we have it store a reference to the next node? Would be way nicer than having the graph need to reach in for this ("tell, don't ask")
   edges: HashMap<String, i32>, // edge is the next 
 }
 
