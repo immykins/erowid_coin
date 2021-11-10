@@ -12,6 +12,7 @@ pub struct MarkovChain {
 impl MarkovChain {
   fn parse_in(dir: &Path) -> Option<&Graph>{
 
+
     None
   }
 
@@ -27,7 +28,6 @@ impl MarkovChain {
 // we mostly care about fast lookups for adding new nodes / modifying edges for existing ones.
 // I might end up duplicating this to allow for faster random sampling, I think Rust is O(n) for randomly sampling
 // from a HashMap, but I only need to do that once for determining the first word in a tweet.
-#[derive(Clone)]
 struct Graph {
   map: HashMap<String, Node>,
   entryWords: Vec<String>, // storing capitalized words 
@@ -40,6 +40,11 @@ impl Graph {
 
   fn add(&mut self, word: String) -> () {
     self.map.insert(word, Node{});
+    // self.map
+  }
+
+  fn add_with_previous(&mut self, prev: String, next: String) -> () {
+
   }
 
   pub fn new() -> Graph {
@@ -51,7 +56,6 @@ impl Graph {
 }
 
 // we need to store a weighted index (the 'strength' of an edge) for probabilistic sampling
-#[derive(Clone)]
 struct Node {
 
 }
@@ -75,9 +79,24 @@ mod tests {
     assert_eq!(graph.number_of_nodes(), 1);
   }
 
-  fn add_duplicate() {
-    let graph = Graph::new();
-    // graph.add
+  // fn add_duplicate() {
+  //   let mut graph = Graph::new();
+  //   graph.add(String::from("foo"));
+  //   let node graph.add(String::from("foo"));
+  //   assert_eq!(graph.number_of_nodes(), 1);
+  // }
+
+  #[test]
+  fn add_with_previous() {
+    let mut graph = Graph::new();
+    graph.add(String::from("foo"));
+    let node = graph.add(String::from("foo"));
+    assert_eq!(graph.number_of_nodes(), 1);
+  }
+
+  #[test]
+  fn add_strengthens_edges() {
+
   }
 
   #[test]
@@ -85,6 +104,15 @@ mod tests {
     let test_path: &Path = Path::new("./txt");
 
     let response = MarkovChain::parse_in(test_path);
+  }
+
+  #[test]
+  fn create_a_tweet() {
+    let test_path: &Path = Path::new("./txt");
+    let mchain = MarkovChain::new();
+
+    let response = mchain.create_tweets(test_path, 1);
+    assert_ne!(response, "this is a tweet");
   }
 }
 
