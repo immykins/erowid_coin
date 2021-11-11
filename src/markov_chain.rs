@@ -70,10 +70,13 @@ impl Graph {
     }
 
     if let Some(last_word) = last_word {
-      let last_node = &self.nodes.get_mut(&last_word);
-       let current_node = &self.nodes.get_mut(&word);
+      let current_node: *const Node = self.nodes.get(&word).unwrap();
+      let last_node = self.nodes.get_mut(&last_word).unwrap();
 
-      // last_node.strengthen_edge(current_node);
+      // is there a safer way to do this?
+      unsafe {
+        last_node.strengthen_edge(&*current_node);
+      }
     }
   }
 
