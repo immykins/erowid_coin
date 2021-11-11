@@ -2,6 +2,7 @@ use std::io;
 use std::fs;
 use std::path::Path;
 use std::collections::HashMap;
+use rand::Rng;
 
 // contains a graph structure
 pub struct MarkovChain {
@@ -85,25 +86,37 @@ impl Graph {
 // we need to store a weighted index (the 'strength' of an edge) for probabilistic sampling
 struct Node {
   // can we have it store a reference to the next node? Would be way nicer than having the graph need to reach in for this ("tell, don't ask")
-  edges: HashMap<String, i32>, // edge is the next 
+  edges: HashMap<String, i32>,
+  sum: i32,
 }
 
 impl Node {
-  // randomly picks from weighted edges and returns pointer to next node
-  // IDEA: instead of (or in addition to) doing this, would be really cool to do our own iterator implementation... maybe use collect and convert it into a string?
-  fn next(self) -> Node {
-    return Node::new();
+  // randomly picks from weighted edges
+  fn next(self) -> String {
+    let mut number = rand::thread_rng().gen_range(1..=self.sum);
+
+    for (word, weight) in self.edges {
+      number -= weight;
+
+      if number <= 0 {
+        return word;
+      }
+    }
+
+    panic!("the edge weights do not match the sum");
   }
 
   // edges are node -> weight
   fn strengthen_edge(&mut self, next: String) -> () {
     let weight = self.edges.entry(next.clone()).or_insert(0);
     *weight += 1;
+    self.sum += 1;
   }
 
   pub fn new() -> Node {
     return Node {
       edges: HashMap::new(),
+      sum: 0,
     }
   }
 }
