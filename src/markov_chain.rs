@@ -73,10 +73,10 @@ impl Graph {
     if let Some(last_word) = last_word {
       // let last_node = self.nodes
       // interesting thing to note: [] returns the actual object, not a pointer
-      let last_node = &self.nodes[last_word];
-      let current_node = &self.nodes[&word];
+      let last_node = &self.nodes.get_mut(&last_word);
+       let current_node = &self.nodes.get_mut(&word);
 
-      last_node.strengthen_edge(current_node);
+      // last_node.strengthen_edge(current_node);
       // self.map.insert(word, Node{});
     }
     // if we do, we change the edges on the PREVIOUS - add new one, or strengthen existing one
