@@ -65,8 +65,7 @@ impl Graph {
 
   fn add(&mut self, word: String, last_word: Option<String>) -> () {
     if !self.nodes.contains_key(&word) {
-      self.nodes.insert(word, Node::new());
-      return;
+      self.nodes.insert(word.clone(), Node::new());
     }
 
     if let Some(last_word) = last_word {
@@ -98,7 +97,7 @@ impl Node {
 
   // edges are node -> weight
   fn strengthen_edge(&mut self, next: String) -> () {
-    let weight = self.edges.entry(next).or_insert(0);
+    let weight = self.edges.entry(next.clone()).or_insert(0);
     *weight += 1;
   }
 
