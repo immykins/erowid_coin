@@ -70,12 +70,13 @@ impl Graph {
       return;
     }
 
-    if last_word.is_some() {
-      let last_word = last_word.unwrap();
-      let mut last_node = self.nodes[&last_word];
-      let current_word = self.nodes[&word];
+    if let Some(last_word) = last_word {
+      // let last_node = self.nodes
+      // interesting thing to note: [] returns the actual object, not a pointer
+      let last_node = &self.nodes[last_word];
+      let current_node = &self.nodes[&word];
 
-      last_node.strengthen_edge(current_word);
+      last_node.strengthen_edge(current_node);
       // self.map.insert(word, Node{});
     }
     // if we do, we change the edges on the PREVIOUS - add new one, or strengthen existing one
@@ -102,7 +103,7 @@ impl Node {
     return Node::new();
   }
 
-  fn strengthen_edge(&mut self, next: Node) -> () {
+  fn strengthen_edge(&mut self, _next: &Node) -> () {
 
   }
 
