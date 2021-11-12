@@ -2,6 +2,7 @@ use std::{io, fs};
 use std::path::Path;
 use std::collections::HashMap;
 use rand::Rng;
+use rand::seq::SliceRandom;
 use regex::Regex;
 
 // contains a graph structure
@@ -28,14 +29,8 @@ impl MarkovChain {
     Ok(())
   }
 
-  fn generate_tweet(self: &Self) -> String {
-    let re = Regex::new(".*[!|.|?]$").unwrap();
-    let mut tweet = String::from("");
-    while !re.is_match(&tweet) {
-
-    }
-
-    return tweet;
+  fn generate_tweet(&mut self) -> String {
+    return self.graph.generate_tweet();
   }
 
   pub fn create_tweets(&mut self, dir: &Path, number: i32) -> Vec<String> {
@@ -66,10 +61,36 @@ struct Graph {
 }
 
 impl Graph {
+  fn generate_tweet(&mut self) -> String {
+    let mut tweet = self.random_entry_word();
+
+    let re = Regex::new(".*[!|.|?]$").unwrap();
+    // while !re.is_match(&tweet) {
+    // }
+
+    return tweet;
+  }
+
+  fn random_entry_word(&mut self) -> String {
+    let mut rng = rand::thread_rng();
+    let word = self.entry_words.choose(&mut rng).unwrap();
+    
+    return word.to_string();
+  }
+
+  // fn next(self, word: String) -> String {
+
+  // }
+
   fn add(&mut self, word: String, last_word: Option<String>) -> () {
+    let uppercase = Regex::new(r"\A[A-Z]\w*").unwrap();
+
     if !self.nodes.contains_key(&word) {
       self.nodes.insert(word.clone(), Node::new());
-      self.entry_words.push(word.clone());
+
+      if uppercase.is_match(word.as_str()) {
+        self.entry_words.push(word.clone());
+      }
     }
 
     if let Some(last_word) = last_word {
@@ -95,6 +116,7 @@ struct Node {
 
 impl Node {
   // randomly picks from weighted edges
+  // there's actually a way to do weighted randomization with rand::distributions::WeightedIndex, might want to use that instead
   fn next(self) -> String {
     let mut number = rand::thread_rng().gen_range(1..=self.sum);
 
