@@ -62,10 +62,14 @@ struct Graph {
 
 impl Graph {
   fn generate_tweet(&mut self) -> String {
-    let mut tweet = self.random_entry_word();
+    let mut words = Vec::from(self.random_entry_word());
+    let mut last_node = self.nodes.get(words.last());
+    // let mut word = self.random_entry_word();
+    // let mut tweet = word.clone();
 
     let re = Regex::new(".*[!|.|?]$").unwrap();
-    // while !re.is_match(&tweet) {
+    // while !re.is_match(&words.last()) {
+
     // }
 
     return tweet;
