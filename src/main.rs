@@ -19,10 +19,9 @@ fn main() {
   }
 
   if args.len() == 3 {
-    let integer = &args[2].parse::<i32>();
+    let integer = args[2].parse::<i32>();
     num_tweets = match integer {
-      // is there some way to not clone here? idk rust is hard lol
-      Ok(val) => val.clone(),
+      Ok(val) => val,
       Err(error) => {
         println!("could not parse number of tweets: {}", error);
         return;
