@@ -62,23 +62,25 @@ struct Graph {
 
 impl Graph {
   fn generate_tweet(&mut self) -> String {
-    let mut words = Vec::from(self.random_entry_word());
-    let mut last_node = self.nodes.get(words.last());
+    let mut words = vec!(self.random_entry_word());
     // let mut word = self.random_entry_word();
     // let mut tweet = word.clone();
 
     let re = Regex::new(".*[!|.|?]$").unwrap();
     // while !re.is_match(&words.last()) {
+    let last_word = words.last().unwrap(); // this is a u8
 
+    // TODO: change the hashmap key to str instead of String; it doesn't need to be mutable
+    let mut last_node = self.nodes.get(&last_word.to_string());
     // }
 
-    return tweet;
+    return words.iter().map( |w| w.to_string() ).collect::<Vec<String>>().join(" ");
   }
 
   fn random_entry_word(&mut self) -> String {
     let mut rng = rand::thread_rng();
     let word = self.entry_words.choose(&mut rng).unwrap();
-    
+   
     return word.to_string();
   }
 
