@@ -129,11 +129,11 @@ impl Node {
   fn next(&self) -> String {
     let mut number = rand::thread_rng().gen_range(1..=self.sum);
 
-    for (word, weight) in self.edges {
+    for (word, weight) in &self.edges {
       number -= weight;
 
       if number <= 0 {
-        return word;
+        return word.to_string();
       }
     }
 
