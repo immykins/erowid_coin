@@ -38,6 +38,6 @@ fn main() {
   let tweets = mchain.create_tweets(directory, num_tweets);
 
   for tweet in tweets.iter() {
-    println!("{}", tweet);
+    println!("{}\n", tweet);
   }
 }

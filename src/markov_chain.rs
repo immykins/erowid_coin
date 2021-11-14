@@ -63,13 +63,11 @@ struct Graph {
 impl Graph {
   fn generate_tweet(&mut self) -> String {
     let mut words = vec!(self.random_entry_word());
-    // let mut word = self.random_entry_word();
-    // let mut tweet = word.clone();
 
     let mut current_word = words.last().unwrap().to_string();
 
     let re = Regex::new(".*[!|.|?]$").unwrap();
-    while !re.is_match(&current_word) { // this is a u8
+    while !re.is_match(&current_word) {
       // TODO: change the hashmap key to str instead of String; it doesn't need to be mutable
       let last_node = self.nodes.get(&current_word.to_string()).unwrap();
 
@@ -86,10 +84,6 @@ impl Graph {
    
     return word.to_string();
   }
-
-  // fn next(self, word: String) -> String {
-
-  // }
 
   fn add(&mut self, word: String, last_word: Option<String>) -> () {
     let uppercase = Regex::new(r"\A[A-Z]\w*").unwrap();
