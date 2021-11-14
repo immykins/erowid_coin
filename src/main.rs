@@ -1,6 +1,8 @@
 /*
-"Erowid Coin" is just a markov chain generator for tweeting about the hellish crossection of erowid trip
+"Erowid Coin" is a markov chain generator for tweeting about the unholy marriage of erowid trip
 reports + cryptocurrency - it's build using local text files.
+
+Usage: erowidcoin <directory> <number of tweets (optional)>
 */
 
 pub mod markov_chain;
