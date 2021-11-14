@@ -66,13 +66,16 @@ impl Graph {
     // let mut word = self.random_entry_word();
     // let mut tweet = word.clone();
 
-    let re = Regex::new(".*[!|.|?]$").unwrap();
-    // while !re.is_match(&words.last()) {
-    let last_word = words.last().unwrap(); // this is a u8
+    let mut current_word = words.last().unwrap().to_string();
 
-    // TODO: change the hashmap key to str instead of String; it doesn't need to be mutable
-    let mut last_node = self.nodes.get(&last_word.to_string());
-    // }
+    let re = Regex::new(".*[!|.|?]$").unwrap();
+    while !re.is_match(&current_word) { // this is a u8
+      // TODO: change the hashmap key to str instead of String; it doesn't need to be mutable
+      let last_node = self.nodes.get(&current_word.to_string()).unwrap();
+
+      current_word = last_node.next();
+      words.push(current_word.clone());
+    }
 
     return words.iter().map( |w| w.to_string() ).collect::<Vec<String>>().join(" ");
   }
@@ -123,7 +126,7 @@ struct Node {
 impl Node {
   // randomly picks from weighted edges
   // there's actually a way to do weighted randomization with rand::distributions::WeightedIndex, might want to use that instead
-  fn next(self) -> String {
+  fn next(&self) -> String {
     let mut number = rand::thread_rng().gen_range(1..=self.sum);
 
     for (word, weight) in self.edges {
