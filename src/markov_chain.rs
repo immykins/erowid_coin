@@ -58,6 +58,7 @@ impl MarkovChain {
 struct Graph {
   nodes: HashMap<String, Node>,
   entry_words: Vec<String>, // storing capitalized words
+  rng: Box<dyn rand::RngCore>,
 }
 
 impl Graph {
@@ -79,8 +80,7 @@ impl Graph {
   }
 
   fn random_entry_word(&mut self) -> String {
-    let mut rng = rand::thread_rng();
-    let word = self.entry_words.choose(&mut rng).unwrap();
+    let word = self.entry_words.choose(&mut self.rng).unwrap();
    
     return word.to_string();
   }
@@ -106,6 +106,7 @@ impl Graph {
     return Graph {
       nodes: HashMap::new(),
       entry_words: Vec::new(),
+      rng: Box::new(rand::thread_rng()),
     };
   }
 }
