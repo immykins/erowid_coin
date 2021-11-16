@@ -153,30 +153,6 @@ impl Node {
 mod tests {
   use super::*;
 
-  // Graph tests - these are more of an internal implementation detail for MarkovChain, so they can prob be deleted later
-
-  // #[test]
-  // #[ignore]
-  // fn add() {
-  //   let mut graph = Graph::new();
-  //   graph.add(String::from("foo"), None);
-  //   assert_eq!(graph.number_of_nodes(), 1);
-  // }
-
-  // fn add_duplicate() {
-  //   let mut graph = Graph::new();
-  //   graph.add(String::from("foo"));
-  //   let node graph.add(String::from("foo"));
-  //   assert_eq!(graph.number_of_nodes(), 1);
-  // }
-
-  #[test]
-  #[ignore]
-  fn add_strengthens_edges() {
-  }
-
-  // MarkovChain tests
-
   #[test]
   fn create_a_tweet() {
     let test_path: &Path = Path::new("./txt");
