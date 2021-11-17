@@ -72,7 +72,7 @@ impl Graph {
       // TODO: change the hashmap key to str instead of String; it doesn't need to be mutable
       let last_node = self.nodes.get(&current_word.to_string()).unwrap();
 
-      current_word = last_node.next();
+      current_word = last_node.next(&mut self.rng);
       words.push(current_word.clone());
     }
 
@@ -121,8 +121,8 @@ struct Node {
 impl Node {
   // randomly picks from weighted edges
   // there's actually a way to do weighted randomization with rand::distributions::WeightedIndex, might want to use that instead
-  fn next(&self) -> String {
-    let mut number = rand::thread_rng().gen_range(1..=self.sum);
+  fn next(&self, rng: &mut Box<dyn rand::RngCore>) -> String {
+    let mut number = rng.gen_range(1..=self.sum);
 
     for (word, weight) in &self.edges {
       number -= weight;
